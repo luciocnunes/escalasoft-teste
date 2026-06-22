@@ -1,0 +1,275 @@
+unit UCaixa;
+
+interface
+uses DB, FireDAC.Comp.Client,Classes;
+type
+TGerenciadorCaixa = class
+  Sacado:Boolean;
+  private
+    FDMEstoque: TFDMemTable;
+    Registros:TStringList;
+    FValorRestante:Double;
+    // Função interna recursiva
+    function TentarSimularSaque(AValorRestante: Double): Boolean;
+  public
+    constructor Create(AMemTable: TFDMemTable);
+    procedure AdicionarDinheiro(const ADinheiro: string; AValor: Double);
+    procedure RemoverDinheiro(const ADinheiro: string; AValor: Double);
+    procedure CarregarDinheiro(const ADinheiro: string; AValor: Double;AQtde:Integer);
+    procedure DescarregarDinheiro(const ADinheiro: string; AValor: Double;AQtde:Integer);
+    function ConsultaDinheiro(const ADinheiro: string; AValor: Double):Integer;
+    function ConsultaTotalGeral:Double;
+    function RealizarSaqueInteligente(AValorSolicitado: Double; AEstrategiaCrescente: Integer):String;
+    procedure OrdenarCaixa;
+end;
+implementation
+uses uClassNotificacao, SysUtils, Variants,Vcl.Dialogs,UITypes,Math;
+
+constructor TGerenciadorCaixa.Create(AMemTable: TFDMemTable);
+begin
+  inherited Create;
+  FDMEstoque := AMemTable;
+  Registros:=TStringList.Create;
+  Sacado:=False;
+end;
+
+procedure TGerenciadorCaixa.AdicionarDinheiro(const ADinheiro: string; AValor: Double);
+begin
+  // Localiza se já existe essa moeda/cédula avisar
+  if FDMEstoque.Locate('dinheiro;valor', VarArrayOf([ADinheiro,AValor]), []) then
+  begin
+     MessageDlg(
+      Format('O item "%s" com o valor %s já foi adicionado ao caixa!', [ADinheiro, FormatFloat('R$ #,##0.00', AValor)]),
+      mtWarning,
+      [mbOK],
+      0
+    );
+    TEventoLog.Create('Tentativa de Adicionar Célula/Moeda, já existente!').Free;
+  end
+  else
+  begin
+    // Se não achou, insere um registro totalmente novo
+    FDMEstoque.insert;
+    FDMEstoque.FieldByName('dinheiro').AsString := ADinheiro;
+    FDMEstoque.FieldByName('valor').AsFloat     := AValor;
+    FDMEstoque.FieldByName('qtde').AsInteger    := 0;
+    FDMEstoque.Post;
+    OrdenarCaixa;
+    TEventoLog.Create(Format('Adicionado ao Caixa opção de %s no Valor de %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor)])).Free;
+  end;
+end;
+
+procedure TGerenciadorCaixa.RemoverDinheiro(const ADinheiro: string; AValor: Double);
+begin
+  // Localizando
+  if FDMEstoque.Locate('dinheiro;valor', VarArrayOf([ADinheiro,AValor]), []) then
+  begin
+    if MessageDlg(Format('Deseja realmente remover o item %s referente ao valor %s ?', [ADinheiro, FormatFloat('R$ #,##0.00', AValor)]),
+                mtConfirmation, mbYesNo, 0) = mrYes then
+    begin
+       FDMEstoque.delete;
+       TEventoLog.Create(Format('Removido do Caixa opção de %s no Valor de %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor)])).Free;
+    end;
+  end;
+end;
+
+procedure TGerenciadorCaixa.CarregarDinheiro(const ADinheiro: string; AValor: Double;AQtde:Integer);
+begin
+  // Localiza
+  if FDMEstoque.Locate('dinheiro;valor', VarArrayOf([ADinheiro,AValor]), []) then
+  begin
+     if (AQtde <=0) then
+        MessageDlg('A Quantidade tem que ser maior que 0.',mtWarning, [mbOK], 0 )
+     else
+     Begin
+        // Carregando estoque
+        FDMEstoque.Edit;
+        FDMEstoque.FieldByName('qtde').AsInteger    := FDMEstoque.FieldByName('qtde').AsInteger+AQtde;
+        FDMEstoque.Post;
+        TEventoLog.Create(Format('Carregando ao Caixa opção de %s no Valor de %s a Quantidade de %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor),IntToStr(AQtde)])).Free;
+     End;
+  end;
+end;
+procedure TGerenciadorCaixa.DescarregarDinheiro(const ADinheiro: string; AValor: Double;AQtde:Integer);
+begin
+  // Localiza
+  if FDMEstoque.Locate('dinheiro;valor', VarArrayOf([ADinheiro,AValor]), []) then
+  begin
+     if (AQtde <=0) then
+        MessageDlg('A Quantidade tem que ser maior que 0.',mtWarning, [mbOK], 0 )
+     else
+     Begin
+        // Decarregando estoque
+        if (FDMEstoque.FieldByName('qtde').AsInteger>=AQtde) Then
+        Begin
+          FDMEstoque.Edit;
+          FDMEstoque.FieldByName('qtde').AsInteger    := FDMEstoque.FieldByName('qtde').AsInteger-AQtde;
+          FDMEstoque.Post;
+          TEventoLog.Create(Format('Descarregando ao Caixa opção de %s no Valor de %s a Quantidade de %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor),IntToStr(AQtde)])).Free;
+        End
+        Else
+        Begin
+          MessageDlg(format('Quantidade: %s informada maior que o Saldo: %s',[IntToStr(AQtde),IntToStr(FDMEstoque.FieldByName('qtde').AsInteger)]),mtWarning,[mbOK],0 );
+          TEventoLog.Create(Format('Tentiva descarregando ao Caixa opção de %s no Valor de %s a Quantidade de %s, Saldo Atual %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor),IntToStr(AQtde),IntToStr(FDMEstoque.FieldByName('qtde').AsInteger)])).Free;
+
+        End;
+     End;
+  end;
+end;
+
+Function TGerenciadorCaixa.ConsultaDinheiro(const ADinheiro: string; AValor: Double):Integer;
+begin
+  // Localizando
+  if FDMEstoque.Locate('dinheiro;valor', VarArrayOf([ADinheiro,AValor]), []) then
+  begin
+       Result := FDMEstoque.FieldByName('qtde').AsInteger;
+       TEventoLog.Create(Format('Consulta do total do estoque da opção de %s no Valor de %s Total -> %s.', [ADinheiro, FormatFloat('R$ #,##0.00', AValor),IntToStr( Result)])).Free;
+  end
+  else
+     Result := -1;// não encontrado
+end;
+Function TGerenciadorCaixa.ConsultaTotalGeral: Double;
+Var vTotalEstoque:Double;
+begin
+     if not VarIsNull(FDMEstoque.FieldByName('totalestoque').Value) then
+         vTotalEstoque := Double(FDMEstoque.FieldByName('totalestoque').Value);
+     Result :=vTotalEstoque ;
+     TEventoLog.Create(Format('Consulta ao Total Geral do Estoque : %s.', [FormatFloat('R$ #,##0.00', Result)])).Free;
+end;
+
+function TGerenciadorCaixa.RealizarSaqueInteligente(AValorSolicitado: Double; AEstrategiaCrescente: Integer):String;
+Var sSugestao:String;
+begin
+  Registros.Clear;// Limpar registros
+  Result := '';
+  FValorRestante := 9999999999;
+  if AValorSolicitado <= 0 then
+    raise Exception.Create('Valor de saque inválido.');
+
+  // 1. Ativa o modo de transação temporária
+  FDMEstoque.CachedUpdates := True;
+  FDMEstoque.DisableControls;
+  try
+    // Define a estratégia de ordenação inicial
+    if AEstrategiaCrescente=0 then // Padrao
+      FDMEstoque.IndexFieldNames := 'valor:D'  // Maiores primeiro (100, 50, 20...)
+    else // Alternativa
+      FDMEstoque.IndexFieldNames := 'valor';    // Menores primeiro (0.50, 2, 5...)
+
+    FDMEstoque.First;
+    // 2. Chama a simulação inteligente
+    if not TentarSimularSaque(AValorSolicitado) then
+    begin
+      // Se a simulação retornou FALSO, significa que NENHUMA combinação matemática deu certo.
+      // Desfaz absolutamente tudo o que mexeu no estoque.
+      Sacado := False;
+      FDMEstoque.CancelUpdates;
+      if (AValorSolicitado-FValorRestante) <=0 Then
+         sSugestao :='Sugestão:Caixa não contém cédulas/moedas com este valor.'+sLineBreak+'Digite outro valor'
+      else
+         sSugestao :=Format('Sugestão:Você pode sacar %s',[FormatFloat('R$ #,##0.00',AValorSolicitado-FValorRestante)]);
+      Result := sSugestao;
+      MessageDlg('O caixa eletrônico não possui cédulas compatíveis para este valor.'+sLineBreak+
+                             sSugestao,mtWarning,[mbOK],0 );
+    end
+    else
+    begin
+      // DEU CERTO: Achou uma combinação perfeita! Consolida a baixa do estoque.
+      FDMEstoque.CommitUpdates;
+      Registros.Insert(0,'*******COMPROVANTE DE SAQUE *******');
+      TEventoLog.Create(Registros.Text).Free;
+      Sacado := True;
+      Result :=Registros.Text;
+    end;
+
+  finally
+    FDMEstoque.EnableControls;
+    FDMEstoque.CachedUpdates := False;
+    OrdenarCaixa;
+
+  end;
+end;
+
+function TGerenciadorCaixa.TentarSimularSaque(AValorRestante: Double): Boolean;
+var
+  ValorCedula,vDivisaoPossivel: Double;
+  QtdDisponivel, QtdMaxPossivel, QtdTestar: Integer;
+  BookmarkAtual: TBookmark;
+  SucessoEncontrado: Boolean;
+  vDinheiro:String;
+begin
+  if FValorRestante > AValorRestante then
+     FValorRestante := AValorRestante;
+  if AValorRestante < 0.001 then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  // Caso base 2: Fim do estoque sem zerar o valor
+  if FDMEstoque.Eof then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+  SucessoEncontrado := False;
+  BookmarkAtual := FDMEstoque.GetBookmark;
+  try
+    vDinheiro     := FDMEstoque.FieldByName('dinheiro').AsString;
+    ValorCedula   := FDMEstoque.FieldByName('valor').AsFloat;
+    QtdDisponivel := FDMEstoque.FieldByName('qtde').AsInteger;
+
+    // Quantas notas desse valor cabem no saldo restante?
+    vDivisaoPossivel := (AValorRestante / ValorCedula)+ 0.0001; // Corrigir erro de ponto flutante
+    QtdMaxPossivel := trunc(vDivisaoPossivel);
+
+    if QtdMaxPossivel > QtdDisponivel then
+      QtdMaxPossivel := QtdDisponivel;
+
+    // Loop  BLOCO de notas
+    for QtdTestar := QtdMaxPossivel downto 0 do
+    begin
+      // Garante que estamos na linha correta antes de alterar
+      FDMEstoque.GotoBookmark(BookmarkAtual);
+
+      // Simula o desconto no estoque
+      FDMEstoque.Edit;
+      FDMEstoque.FieldByName('qtde').AsInteger := QtdDisponivel - QtdTestar;
+      FDMEstoque.Post;
+
+      // Avança para a próxima nota/moeda
+      FDMEstoque.GotoBookmark(BookmarkAtual);
+      FDMEstoque.Next;
+
+      // Se a próxima combinação der certo, marca o sucesso e aborta o laço
+      if TentarSimularSaque(AValorRestante - (QtdTestar * ValorCedula)) then
+      begin
+        SucessoEncontrado := True;
+        if QtdTestar> 0 then
+           Registros.Add(StringOfChar(' ', 24)+Format('%d => %s de %m',[QtdTestar,vDinheiro,ValorCedula]));
+        Break;
+      end;
+    end;
+
+    Result := SucessoEncontrado;
+
+  finally
+    // SE FALHOU COMPLETAMENTE neste nível, desfaz a alteração desta linha específica
+    if (not SucessoEncontrado) and FDMEstoque.BookmarkValid(BookmarkAtual) then
+    begin
+      FDMEstoque.GotoBookmark(BookmarkAtual);
+      FDMEstoque.Edit;
+      FDMEstoque.FieldByName('qtde').AsInteger := QtdDisponivel;
+      FDMEstoque.Post;
+    end;
+
+    FDMEstoque.FreeBookmark(BookmarkAtual);
+  end;
+end;
+
+procedure TGerenciadorCaixa.OrdenarCaixa;
+Begin
+    FDMEstoque.IndexFieldNames := 'dinheiro;valor:D';
+End;
+end.

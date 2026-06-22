@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/04/11 13:50:24.000.030,=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:26:50.657,=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:27:47.225,C:\TesteEscalasoft\UPrincipal.dfm=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.dfm</Transaction>
+    <Transaction>2026/06/19 08:27:47.225,C:\TesteEscalasoft\UPrincipal.pas=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:28:00.688,C:\TesteEscalasoft\PCaixaExeletronico.dproj=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Project6.dproj</Transaction>
+    <Transaction>2026/06/19 08:32:33.678,C:\TesteEscalasoft\src\PCaixaExeletronico.dproj=C:\TesteEscalasoft\PCaixaExeletronico.dproj</Transaction>
+    <Transaction>2026/06/19 08:40:20.790,C:\TesteEscalasoft\src\view\UPrincipal.pas=C:\TesteEscalasoft\UPrincipal.pas</Transaction>
+    <Transaction>2026/06/19 08:40:20.790,C:\TesteEscalasoft\src\view\UPrincipal.dfm=C:\TesteEscalasoft\UPrincipal.dfm</Transaction>
+    <Transaction>2026/06/19 08:43:11.152,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 08:57:49.859,=C:\TesteEscalasoft\src\Unit2.pas</Transaction>
+    <Transaction>2026/06/19 08:58:07.595,C:\TesteEscalasoft\src\view\UEstoque.pas=C:\TesteEscalasoft\src\Unit2.pas</Transaction>
+    <Transaction>2026/06/19 08:58:07.595,C:\TesteEscalasoft\src\view\UEstoque.dfm=C:\TesteEscalasoft\src\Unit2.dfm</Transaction>
+    <Transaction>2026/06/19 08:59:56.007,C:\TesteEscalasoft\src\view\UDmPrincipal.dfm=C:\TesteEscalasoft\src\Unit1.dfm</Transaction>
+    <Transaction>2026/06/19 08:59:56.007,C:\TesteEscalasoft\src\view\UDmPrincipal.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 10:22:54.660,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 10:23:18.865,C:\TesteEscalasoft\src\controller\uClassEventos.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 14:42:05.848,C:\TesteEscalasoft\src\model\uClassEventos.pas=C:\TesteEscalasoft\src\controller\uClassEventos.pas</Transaction>
+    <Transaction>2026/06/19 15:07:13.598,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 15:08:01.195,C:\TesteEscalasoft\src\model\uClassEstoque.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 15:15:31.200,C:\TesteEscalasoft\src\model\uClassEstoque.pas=</Transaction>
+    <Transaction>2026/06/19 15:15:39.398,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 15:16:02.554,C:\TesteEscalasoft\src\model\UCaixa.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 22:47:47.312,C:\TesteEscalasoft\src\model\uClassNotificacao.pas=C:\TesteEscalasoft\src\model\uClassEventos.pas</Transaction>
+    <Transaction>2026/06/19 23:01:14.634,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 23:01:36.834,C:\TesteEscalasoft\src\controller\uClassCliente.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 23:14:31.275,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 23:21:04.160,C:\TesteEscalasoft\src\view\USaque.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/19 23:21:04.160,C:\TesteEscalasoft\src\view\USaque.dfm=C:\TesteEscalasoft\src\Unit1.dfm</Transaction>
+    <Transaction>2026/06/21 15:21:50.823,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 15:41:58.589,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 15:45:01.450,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 15:45:11.737,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 15:49:53.085,C:\TesteEscalasoft\src\view\UCliente.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 15:49:53.085,C:\TesteEscalasoft\src\view\UCliente.dfm=C:\TesteEscalasoft\src\Unit1.dfm</Transaction>
+    <Transaction>2026/06/21 16:04:06.931,=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 16:06:09.615,C:\TesteEscalasoft\src\view\UNotificacoes.pas=C:\TesteEscalasoft\src\Unit1.pas</Transaction>
+    <Transaction>2026/06/21 16:06:09.615,C:\TesteEscalasoft\src\view\UNotificacoes.dfm=C:\TesteEscalasoft\src\Unit1.dfm</Transaction>
+  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="view"/>
+    <File Path="view\UPrincipal.pas"/>
+    <File Path="view\UPrincipal.dfm"/>
+    <File Path="view\UEstoque.pas"/>
+    <File Path="view\UEstoque.dfm"/>
+    <File Path="view\UDmPrincipal.pas"/>
+    <File Path="view\UDmPrincipal.dfm"/>
+    <File Path="view\USaque.pas"/>
+    <File Path="view\USaque.dfm"/>
+    <File Path="view\UCliente.pas"/>
+    <File Path="view\UCliente.dfm"/>
+    <File Path="view\UNotificacoes.pas"/>
+    <File Path="view\UNotificacoes.dfm"/>
+    <File Path="model"/>
+    <File Path="model\uClassNotificacao.pas"/>
+    <File Path="model\UCaixa.pas"/>
+    <File Path="controller"/>
+    <File Path="controller\uClassCliente.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>

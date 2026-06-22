@@ -1,0 +1,35 @@
+unit UDmPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TDMPrincipal = class(TDataModule)
+    FDMEstoque: TFDMemTable;
+    FDMEstoquedinheiro: TStringField;
+    FDMEstoqueqtde: TIntegerField;
+    FDMEstoquevalor: TCurrencyField;
+    FDMEstoquetotal: TCurrencyField;
+    FDMEstoquetotalestoque: TAggregateField;
+    DsEstoque: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DMPrincipal: TDMPrincipal;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

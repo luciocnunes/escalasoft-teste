@@ -1,0 +1,41 @@
+unit UPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TForm6 = class(TForm)
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+
+implementation
+
+{$R *.dfm}
+
+uses UEstoque, USaque;
+
+procedure TForm6.BitBtn1Click(Sender: TObject);
+begin
+   FrmEstoque.show;
+end;
+
+procedure TForm6.BitBtn2Click(Sender: TObject);
+begin
+   FrmSaque.show;
+
+end;
+
+end.

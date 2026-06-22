@@ -1,0 +1,35 @@
+unit UNotificacoes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TfrmNotificacao = class(TForm)
+    mNotificacao: TMemo;
+    btnApagar: TButton;
+    LabelBoasVindas: TLabel;
+    procedure FormActivate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmNotificacao: TfrmNotificacao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmNotificacao.FormActivate(Sender: TObject);
+begin
+   if FileExists(ExtractFilePath(ParamStr(0)) + '\Log_Sistema.txt') then
+      mNotificacao.Lines.LoadFromFile(ExtractFilePath(ParamStr(0)) + '\Log_Sistema.txt');
+
+end;
+
+end.

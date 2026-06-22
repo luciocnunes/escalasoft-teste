@@ -1,0 +1,222 @@
+object frmSaque: TfrmSaque
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Caixa Eletr'#243'nico - Saque'
+  ClientHeight = 440
+  ClientWidth = 440
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poScreenCenter
+  OnActivate = BtnAcessarClick
+  TextHeight = 17
+  object GroupBoxAutenticacao: TGroupBox
+    Left = 16
+    Top = 16
+    Width = 408
+    Height = 134
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    Caption = ' 1. Identifica'#231#227'o do Cliente '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    object LabelConta: TLabel
+      Left = 16
+      Top = 32
+      Width = 133
+      Height = 17
+      Caption = 'Identificador da Conta:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 16
+      Top = 88
+      Width = 39
+      Height = 17
+      Caption = 'Nome:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 16
+      Top = 111
+      Width = 36
+      Height = 17
+      Caption = 'Saldo:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbNome: TLabel
+      Left = 61
+      Top = 88
+      Width = 37
+      Height = 17
+      Caption = 'Nome'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbSaldo: TLabel
+      Left = 61
+      Top = 111
+      Width = 34
+      Height = 17
+      Caption = 'Saldo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object EdtConta: TEdit
+      Left = 16
+      Top = 57
+      Width = 241
+      Height = 25
+      Alignment = taRightJustify
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      Text = '0'
+      OnKeyPress = EdtContaKeyPress
+    end
+    object BtnAcessar: TButton
+      Left = 271
+      Top = 56
+      Width = 121
+      Height = 27
+      Caption = 'Acessar Conta'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      HotImageIndex = 0
+      ParentFont = False
+      TabOrder = 1
+      OnClick = BtnAcessarClick
+    end
+  end
+  object GroupBoxOperacao: TGroupBox
+    Left = 14
+    Top = 162
+    Width = 408
+    Height = 280
+    Caption = ' 2. Solicita'#231#227'o de Saque '
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 1
+    object LabelValor: TLabel
+      Left = 16
+      Top = 47
+      Width = 93
+      Height = 17
+      Caption = 'Valor do Saque:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object EdtValorSaque: TEdit
+      Left = 16
+      Top = 70
+      Width = 376
+      Height = 38
+      Alignment = taRightJustify
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      Text = '0,00'
+      OnExit = EdtValorSaqueExit
+      OnKeyPress = EdtContaKeyPress
+    end
+    object BtnSacar: TButton
+      Left = 16
+      Top = 114
+      Width = 376
+      Height = 41
+      Caption = 'CONFIRMAR SAQUE'
+      ElevationRequired = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      OnClick = BtnSacarClick
+    end
+    object mVisor: TMemo
+      Left = 16
+      Top = 161
+      Width = 376
+      Height = 104
+      Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clLime
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object RGEstrategia: TRadioGroup
+      Left = 196
+      Top = 6
+      Width = 197
+      Height = 47
+      Caption = 'Estrat'#233'gia'
+      Columns = 2
+      ItemIndex = 0
+      Items.Strings = (
+        'Padr'#227'o'
+        'Alternativa')
+      TabOrder = 3
+    end
+  end
+end

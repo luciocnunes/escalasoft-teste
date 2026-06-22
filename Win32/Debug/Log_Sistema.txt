@@ -1,0 +1,4 @@
+[22/06/2026 09:41:32] - *******COMPROVANTE DE SAQUE *******
+                        1 => Cédula de R$ 100,00
+                        2 => Cédula de R$ 200,00
+[22/06/2026 09:41:32] - Saque na conta 1 no valor de R$ 500,00.

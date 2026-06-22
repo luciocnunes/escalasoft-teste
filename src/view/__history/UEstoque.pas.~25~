@@ -1,0 +1,212 @@
+unit UEstoque;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.ComCtrls;
+
+type
+  TFrmEstoque = class(TForm)
+    DBGrid1: TDBGrid;
+    DBEdit1: TDBEdit;
+    Label1: TLabel;
+    Panel1: TPanel;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    GroupBox1: TGroupBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    cbDinheiro: TComboBox;
+    EdtValor: TEdit;
+    btnInserir: TButton;
+    btnRemover: TButton;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    GroupBox2: TGroupBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    cbDinheiroM: TComboBox;
+    EdtValorM: TEdit;
+    btnCarregar: TButton;
+    btnDescarregar: TButton;
+    Label6: TLabel;
+    EdtQtde: TEdit;
+    GroupBox3: TGroupBox;
+    Label7: TLabel;
+    Label8: TLabel;
+    cbDinheiroC: TComboBox;
+    EdtValorC: TEdit;
+    Button1: TButton;
+    Button2: TButton;
+    procedure EdtValorExit(Sender: TObject);
+    procedure EdtValorKeyPress(Sender: TObject; var Key: Char);
+    procedure btnInserirClick(Sender: TObject);
+    procedure DBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnRemoverClick(Sender: TObject);
+    procedure btnCarregarClick(Sender: TObject);
+    procedure btnDescarregarClick(Sender: TObject);
+    procedure EdtValorMExit(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmEstoque: TFrmEstoque;
+
+implementation
+uses UDmPrincipal,uCaixa;
+{$R *.dfm}
+
+procedure TFrmEstoque.btnCarregarClick(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  fValor:Double;
+
+begin
+  fValor := StrToFloat(EdtValorM.Text);
+  if(fValor>0) Then
+  Begin
+    Gerenciador := TGerenciadorCaixa.Create;
+    Gerenciador.CarregarDinheiro(cbDinheiroM.Text,fValor,StrToInt(EdtQtde.Text));
+  End
+  Else
+    MessageDlg(
+      'Valor precisa ser Maior que 0,00.',
+      mtWarning,
+      [mbOK],
+      0
+    );
+
+end;
+
+procedure TFrmEstoque.btnDescarregarClick(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  fValor:Double;
+
+begin
+  fValor := StrToFloat(EdtValorM.Text);
+  if(fValor>0) Then
+  Begin
+    Gerenciador := TGerenciadorCaixa.Create;
+    Gerenciador.descarregarDinheiro(cbDinheiroM.Text,fValor,StrToInt(EdtQtde.Text));
+  End
+  Else
+    MessageDlg(
+      'Valor precisa ser Maior que 0,00.',
+      mtWarning,
+      [mbOK],
+      0
+    );
+
+end;
+
+procedure TFrmEstoque.btnInserirClick(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  fValor:Double;
+begin
+  fValor := StrToFloat(EdtValor.Text);
+  if(fValor>0) Then
+  Begin
+    Gerenciador := TGerenciadorCaixa.Create;
+    Gerenciador.AdicionarDinheiro(cbDinheiro.Text,fValor);
+    EdtValor.Text := '0,00';
+    cbDinheiro.ItemIndex := 0;
+  End
+  Else
+    MessageDlg(
+      'Valor precisa ser Maior que 0,00.',
+      mtWarning,
+      [mbOK],
+      0
+    );
+end;
+
+procedure TFrmEstoque.btnRemoverClick(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  fValor:Double;
+begin
+  fValor := StrToFloat(EdtValor.Text);
+  if(fValor>0) Then
+  Begin
+    Gerenciador := TGerenciadorCaixa.Create;
+    Gerenciador.RemoverDinheiro(cbDinheiro.Text,fValor);
+    EdtValor.Text := '0,00';
+    cbDinheiro.ItemIndex := 0;
+  End
+  Else
+    MessageDlg(
+      'Valor precisa ser Maior que 0,00.',
+      mtWarning,
+      [mbOK],
+      0
+    );
+end;
+
+
+procedure TFrmEstoque.Button1Click(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  fValor:Double;
+  vTotal:Integer;
+begin
+  fValor := StrToFloat(EdtValorC.Text);
+  if(fValor>0) Then
+  Begin
+    Gerenciador := TGerenciadorCaixa.Create;
+    vTotal := Gerenciador.ConsultaDinheiro(cbDinheiroC.Text,fValor);
+    if(vTotal >= 0) Then
+       MessageDlg(format('Quantidade em estoque é: %s com valor total de %s',[IntToStr(vTotal),FormatFloat('R$ #,##0.00', vTotal)]),mtWarning,  [mbOK], 0  )
+    Else
+       MessageDlg('Não foi encontrado!',mtWarning,      [mbOK],      0    );
+
+  End;
+end;
+
+procedure TFrmEstoque.DBGrid1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   cbDinheiro.Text := DMPrincipal.FDMEstoquedinheiro.AsString;
+   cbDinheiroM.Text := DMPrincipal.FDMEstoquedinheiro.AsString;
+   EdtValor.Text := FloatToStr( DMPrincipal.FDMEstoquevalor.asFloat);
+   EdtValorM.Text := FloatToStr( DMPrincipal.FDMEstoquevalor.asFloat);
+   EdtValorExit(Sender);
+   EdtValorMExit(Sender);
+
+end;
+
+procedure TFrmEstoque.EdtValorExit(Sender: TObject);
+begin
+   if(EdtValor.Text='') then
+     EdtValor.Text:='0';
+   if(EdtValor.Text='') then
+     EdtValor.Text:='0';
+   EdtValor.Text:= FormatFloat('#,##0.00', StrToFloat( EdtValor.Text));
+end;
+
+procedure TFrmEstoque.EdtValorKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not(Key In ['0' .. '9',',',  #8, #9,  #27])) or ((key in[',']) and (pos(',',TEdit(Sender).Text)>0))   then
+    Key := #0;
+
+end;
+
+procedure TFrmEstoque.EdtValorMExit(Sender: TObject);
+begin
+   if(EdtValorM.Text='') then
+     EdtValorM.Text:='0';
+   if(EdtValorM.Text='') then
+     EdtValorM.Text:='0';
+   EdtValorM.Text:= FormatFloat('#,##0.00', StrToFloat( EdtValorM.Text));
+
+end;
+
+end.

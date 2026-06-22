@@ -1,0 +1,447 @@
+object FrmEstoque: TFrmEstoque
+  Left = 0
+  Top = 0
+  Caption = 'Estoque'
+  ClientHeight = 533
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -19
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poScreenCenter
+  TextHeight = 25
+  object Label1: TLabel
+    Left = 324
+    Top = 496
+    Width = 139
+    Height = 25
+    Caption = 'Total do Estoque'
+  end
+  object DBGrid1: TDBGrid
+    Left = 17
+    Top = 207
+    Width = 581
+    Height = 289
+    DataSource = DMPrincipal.DsEstoque
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -19
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
+    OnMouseUp = DBGrid1MouseUp
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'Dinheiro'
+        Title.Alignment = taCenter
+        Title.Caption = 'Dinheiro'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = [fsBold]
+        Width = 199
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'valor'
+        Title.Alignment = taCenter
+        Title.Caption = 'Valor'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = [fsBold]
+        Width = 109
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'qtde'
+        Title.Alignment = taCenter
+        Title.Caption = 'Quantidade'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = [fsBold]
+        Width = 99
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'total'
+        Title.Alignment = taCenter
+        Title.Caption = 'Total'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -16
+        Title.Font.Name = 'Segoe UI'
+        Title.Font.Style = [fsBold]
+        Width = 127
+        Visible = True
+      end>
+  end
+  object DBEdit1: TDBEdit
+    Left = 469
+    Top = 495
+    Width = 129
+    Height = 29
+    DataField = 'totalestoque'
+    DataSource = DMPrincipal.DsEstoque
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Panel1: TPanel
+    Left = 17
+    Top = 73
+    Width = 581
+    Height = 130
+    TabOrder = 2
+    object PageControl1: TPageControl
+      Left = 1
+      Top = 1
+      Width = 579
+      Height = 128
+      ActivePage = TabSheet2
+      Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      Style = tsFlatButtons
+      TabOrder = 0
+      ExplicitHeight = 135
+      object TabSheet1: TTabSheet
+        Caption = 'Adicionar/Remover'
+        object GroupBox1: TGroupBox
+          Left = 5
+          Top = 1
+          Width = 561
+          Height = 66
+          Caption = ' Adicionar ou Remover C'#233'dula ou Moeda '
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          object Label2: TLabel
+            Left = 16
+            Top = 32
+            Width = 67
+            Height = 21
+            Caption = 'Dinheiro: '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label3: TLabel
+            Left = 200
+            Top = 32
+            Width = 43
+            Height = 21
+            Caption = 'Valor :'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object cbDinheiro: TComboBox
+            Left = 88
+            Top = 29
+            Width = 89
+            Height = 29
+            Style = csDropDownList
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ItemIndex = 0
+            ParentFont = False
+            TabOrder = 0
+            Text = 'C'#233'dula'
+            Items.Strings = (
+              'C'#233'dula'
+              'Moeda')
+          end
+          object EdtValor: TEdit
+            Left = 253
+            Top = 29
+            Width = 78
+            Height = 29
+            Alignment = taRightJustify
+            TabOrder = 1
+            Text = '0,00'
+            OnExit = EdtValorExit
+            OnKeyPress = EdtValorKeyPress
+          end
+          object btnInserir: TButton
+            Left = 351
+            Top = 29
+            Width = 75
+            Height = 30
+            Caption = 'Inserir'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btnInserirClick
+          end
+          object btnRemover: TButton
+            Left = 448
+            Top = 29
+            Width = 75
+            Height = 29
+            Caption = 'Remover'
+            TabOrder = 3
+            OnClick = btnRemoverClick
+          end
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Carregar/Descarregar'
+        ImageIndex = 1
+        object GroupBox2: TGroupBox
+          Left = 10
+          Top = 1
+          Width = 561
+          Height = 92
+          Caption = 'Carregar ou Descarregar Estoque'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          object Label4: TLabel
+            Left = 8
+            Top = 29
+            Width = 67
+            Height = 21
+            Caption = 'Dinheiro: '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label5: TLabel
+            Left = 192
+            Top = 29
+            Width = 43
+            Height = 21
+            Caption = 'Valor :'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label6: TLabel
+            Left = 350
+            Top = 29
+            Width = 88
+            Height = 21
+            Caption = 'Quantidade :'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object cbDinheiroM: TComboBox
+            Left = 80
+            Top = 26
+            Width = 73
+            Height = 29
+            Style = csDropDownList
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ItemIndex = 0
+            ParentFont = False
+            TabOrder = 0
+            Text = 'C'#233'dula'
+            Items.Strings = (
+              'C'#233'dula'
+              'Moeda')
+          end
+          object EdtValorM: TEdit
+            Left = 245
+            Top = 26
+            Width = 68
+            Height = 29
+            Alignment = taRightJustify
+            TabOrder = 1
+            Text = '0,00'
+            OnExit = EdtValorMExit
+            OnKeyPress = EdtValorKeyPress
+          end
+          object btnCarregar: TButton
+            Left = 299
+            Top = 58
+            Width = 87
+            Height = 30
+            Caption = 'Carregar'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btnCarregarClick
+          end
+          object btnDescarregar: TButton
+            Left = 404
+            Top = 60
+            Width = 97
+            Height = 29
+            Caption = 'Descarregar'
+            TabOrder = 3
+            OnClick = btnDescarregarClick
+          end
+          object EdtQtde: TEdit
+            Left = 445
+            Top = 26
+            Width = 54
+            Height = 29
+            Alignment = taRightJustify
+            TabOrder = 4
+            Text = '1'
+            OnKeyPress = EdtValorKeyPress
+          end
+        end
+      end
+      object TabSheet3: TTabSheet
+        Caption = 'Consultar'
+        ImageIndex = 2
+        object GroupBox3: TGroupBox
+          Left = 10
+          Top = 9
+          Width = 561
+          Height = 66
+          Caption = 'Consultar C'#233'dula ou Moeda '
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          object Label7: TLabel
+            Left = 16
+            Top = 32
+            Width = 67
+            Height = 21
+            Caption = 'Dinheiro: '
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object Label8: TLabel
+            Left = 200
+            Top = 32
+            Width = 43
+            Height = 21
+            Caption = 'Valor :'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object cbDinheiroC: TComboBox
+            Left = 88
+            Top = 29
+            Width = 89
+            Height = 29
+            Style = csDropDownList
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ItemIndex = 0
+            ParentFont = False
+            TabOrder = 0
+            Text = 'C'#233'dula'
+            Items.Strings = (
+              'C'#233'dula'
+              'Moeda')
+          end
+          object EdtValorC: TEdit
+            Left = 253
+            Top = 29
+            Width = 78
+            Height = 29
+            Alignment = taRightJustify
+            TabOrder = 1
+            Text = '0,00'
+            OnExit = EdtValorExit
+            OnKeyPress = EdtValorKeyPress
+          end
+          object btnTotal: TButton
+            Left = 351
+            Top = 29
+            Width = 75
+            Height = 30
+            Caption = 'Total'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btnTotalClick
+          end
+          object btnTotalGeral: TButton
+            Left = 448
+            Top = 29
+            Width = 104
+            Height = 29
+            Caption = 'Total Estoque'
+            TabOrder = 3
+            OnClick = btnTotalGeralClick
+          end
+        end
+      end
+    end
+  end
+end

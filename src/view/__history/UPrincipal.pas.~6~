@@ -1,0 +1,54 @@
+unit UPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TForm6 = class(TForm)
+    BitBtn2: TBitBtn;
+    LabelBoasVindas: TLabel;
+    LabelSubtitulo: TLabel;
+    GridPanelButtons: TGridPanel;
+    BtnCardSaque: TButton;
+    BtnCardEstoque: TButton;
+    BtnCardClientes: TButton;
+    BtnCardNotificacao: TButton;
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BtnCardSaqueClick(Sender: TObject);
+    procedure BtnCardClientesClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+
+implementation
+
+{$R *.dfm}
+
+uses UEstoque, USaque;
+
+procedure TForm6.BitBtn2Click(Sender: TObject);
+begin
+   FrmSaque.show;
+
+end;
+
+procedure TForm6.BtnCardClientesClick(Sender: TObject);
+begin
+  frmCliente.show;
+end;
+
+procedure TForm6.BtnCardSaqueClick(Sender: TObject);
+begin
+   FrmEstoque.show;
+
+end;
+
+end.

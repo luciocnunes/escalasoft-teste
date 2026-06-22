@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/04/11 13:50:24.000.030,=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:26:50.657,=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:27:47.225,C:\TesteEscalasoft\UPrincipal.pas=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>2026/06/19 08:27:47.225,C:\TesteEscalasoft\UPrincipal.dfm=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Unit6.dfm</Transaction>
+    <Transaction>2026/06/19 08:28:00.688,C:\TesteEscalasoft\PCaixaExeletronico.dproj=C:\Users\luciocnunes\Documents\Embarcadero\Studio\Projects\Project6.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

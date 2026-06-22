@@ -1,0 +1,31 @@
+<<<<<<< HEAD
+program PCaixaExeletronico;
+
+uses
+  Vcl.Forms,
+  UPrincipal in 'UPrincipal.pas' {Form6};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm6, Form6);
+  Application.Run;
+end.
+=======
+program PCaixaExeletronico;
+
+uses
+  Vcl.Forms,
+  UPrincipal in 'UPrincipal.pas' {Form6};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm6, Form6);
+  Application.Run;
+end.
+>>>>>>> 9f8aec4e5a869d9411c66f9ea7362c23f12df318

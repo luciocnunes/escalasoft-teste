@@ -1,0 +1,66 @@
+unit UDmPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TDMPrincipal = class(TDataModule)
+    FDMEstoque: TFDMemTable;
+    FDMEstoquedinheiro: TStringField;
+    FDMEstoqueqtde: TIntegerField;
+    FDMEstoquevalor: TCurrencyField;
+    FDMEstoquetotal: TCurrencyField;
+    FDMEstoquetotalestoque: TAggregateField;
+    DsEstoque: TDataSource;
+    FDMCliente: TFDMemTable;
+    FDMClienteid: TIntegerField;
+    FDMClientenome: TStringField;
+    FDMClientesaldo: TFloatField;
+    DSCliente: TDataSource;
+    procedure FDMEstoqueAfterPost(DataSet: TDataSet);
+    procedure DataModuleCreate(Sender: TObject);
+    procedure FDMClienteAfterPost(DataSet: TDataSet);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DMPrincipal: TDMPrincipal;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TDMPrincipal.DataModuleCreate(Sender: TObject);
+begin
+   if not DirectoryExists(ExtractFilePath(ParamStr(0)) + 'db') then
+      CreateDir(ExtractFilePath(ParamStr(0)) + 'db');
+   if FileExists(ExtractFilePath(ParamStr(0)) + 'db\estoque.fdm') then
+      FDMEstoque.LoadFromFile(ExtractFilePath(ParamStr(0)) + 'db\estoque.fdm');
+   if FileExists(ExtractFilePath(ParamStr(0)) + 'db\cliente.fdm') then
+      FDMCliente.LoadFromFile(ExtractFilePath(ParamStr(0)) + 'db\cliente.fdm');
+   FDMEstoque.IndexFieldNames := 'valor:D'  // Maiores primeiro (100, 50, 20...)
+
+end;
+
+procedure TDMPrincipal.FDMClienteAfterPost(DataSet: TDataSet);
+begin
+   FDMCliente.SaveToFile(ExtractFilePath(ParamStr(0)) + 'db\cliente.fdm');
+
+end;
+
+procedure TDMPrincipal.FDMEstoqueAfterPost(DataSet: TDataSet);
+begin
+   FDMEstoque.SaveToFile(ExtractFilePath(ParamStr(0)) + 'db\estoque.fdm');
+end;
+
+end.

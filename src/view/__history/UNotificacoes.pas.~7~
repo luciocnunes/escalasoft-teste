@@ -1,0 +1,47 @@
+unit UNotificacoes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TfrmNotificacao = class(TForm)
+    mNotificacao: TMemo;
+    btnApagar: TButton;
+    LabelBoasVindas: TLabel;
+    procedure FormActivate(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmNotificacao: TfrmNotificacao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmNotificacao.btnApagarClick(Sender: TObject);
+begin
+if MessageDlg('Deseja realmente apagar todas as notificações e logs do sistema?',
+                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+     DeleteFile(ExtractFilePath(ParamStr(0)) + '\Log_Sistema.txt');
+     mNotificacao.Clear;
+  end;
+end;
+
+procedure TfrmNotificacao.FormActivate(Sender: TObject);
+begin
+   if FileExists(ExtractFilePath(ParamStr(0)) + '\Log_Sistema.txt') then
+      mNotificacao.Lines.LoadFromFile(ExtractFilePath(ParamStr(0)) + '\Log_Sistema.txt');
+
+
+end;
+
+end.

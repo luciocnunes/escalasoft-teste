@@ -1,0 +1,106 @@
+unit USaque;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,uClassCliente, Vcl.ExtCtrls;
+
+type
+  TfrmSaque = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    lbNome: TLabel;
+    lbSaldo: TLabel;
+    GroupBoxAutenticacao:TGroupBox;
+    GroupBoxOperacao:TGroupBox;
+    BtnAcessar:TButton;
+    BtnSacar:TButton;
+    EdtConta:TEdit;
+    EdtValorSaque:TEdit;
+    mVisor: TMemo;
+    RGEstrategia: TRadioGroup;
+
+    procedure EdtContaKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnAcessarClick(Sender: TObject);
+    procedure EdtValorSaqueExit(Sender: TObject);
+    procedure BtnSacarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSaque: TfrmSaque;
+  Conta:TContaUsuario;
+
+
+implementation
+uses UDmPrincipal,uCaixa;
+
+{$R *.dfm}
+
+procedure TfrmSaque.BtnAcessarClick(Sender: TObject);
+begin
+   FreeAndNil(Conta);
+   Conta:=TContaUsuario.Create(StrToInt(EdtConta.text),DMPrincipal.FDMCliente);
+   lbNome.Caption := Conta.Nome;
+   lbSaldo.Caption := FormatFloat('R$ #,##0.00', Conta.Saldo);
+   if Conta.Id > 0 then
+   Begin
+      GroupBoxOperacao.Enabled := True;
+      EdtValorSaque.Font.Color := clHighlight;
+      EdtValorSaque.SetFocus;
+      mVisor.Text := 'Acesso liberado!'+sLineBreak+'Digite o Valor para saque.';
+   End
+   Else
+   Begin
+      GroupBoxOperacao.Enabled := False;
+      EdtValorSaque.Font.Color := clGrayText;
+      mVisor.Text := 'Digite seu identificador';
+
+   End;
+
+
+end;
+
+procedure TfrmSaque.BtnSacarClick(Sender: TObject);
+var
+  Gerenciador: TGerenciadorCaixa;
+  vValorSaque:Double;
+begin
+  vValorSaque := StrToFloat(EdtValorSaque.Text);
+  if(vValorSaque>0) Then
+  Begin
+      if (vValorSaque <= Conta.Saldo) Then
+      Begin
+        Gerenciador := TGerenciadorCaixa.Create(DMPrincipal.FDMEstoque);
+        mVisor.Text  := Gerenciador.RealizarSaqueEstrategico(vValorSaque,RGEstrategia.ItemIndex);
+        Conta.Debitar(vValorSaque);
+        lbSaldo.Caption := FormatFloat('#,##0.00', Conta.Saldo);
+        EdtValorSaque.Text := '0,00';
+      End
+      Else
+         MessageDlg('Saldo insuficiente!',mtWarning,[mbOK],0    );
+  End;
+end;
+
+procedure TfrmSaque.EdtContaKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not(Key In ['0' .. '9',',',  #8, #9,  #27])) or ((key in[',']) and (pos(',',TEdit(Sender).Text)>0))   then
+    Key := #0;
+
+end;
+
+procedure TfrmSaque.EdtValorSaqueExit(Sender: TObject);
+begin
+   if(EdtValorSaque.Text='') then
+     EdtValorSaque.Text:='0';
+   if(EdtValorSaque.Text='') then
+     EdtValorSaque.Text:='0';
+   EdtValorSaque.Text:= FormatFloat('#,##0.00', StrToFloat( EdtValorSaque.Text));
+
+end;
+
+end.
