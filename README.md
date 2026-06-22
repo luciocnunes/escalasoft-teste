@@ -2,9 +2,11 @@
 Teste Técnico - Sistema de Caixa  Eletrônico
 
 Desafio Técnico 🚀🚀
+
 Desenvolvido com Delphi 11
 
 Instruções Gerais 
+
 • Não utilize frameworks ou bibliotecas externas de terceiros (apenas 
 bibliotecas nativas da linguagem). 
 
